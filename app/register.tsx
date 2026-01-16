@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { API_URL } from "../config";
 
-const API = "http://localhost:5000/api";
+const API = "https://uhv-connectbackend1.onrender.com/";
 
 export default function Register() {
   const router = useRouter();
@@ -40,7 +40,11 @@ export default function Register() {
 
       <TextInput placeholder="Full Name" onChangeText={setFullName} />
       <TextInput placeholder="Email" onChangeText={setEmail} />
-      <TextInput placeholder="Password" secureTextEntry onChangeText={setPassword} />
+      <TextInput
+        placeholder="Password"
+        secureTextEntry
+        onChangeText={setPassword}
+      />
 
       <TouchableOpacity onPress={register}>
         <Text>Register</Text>

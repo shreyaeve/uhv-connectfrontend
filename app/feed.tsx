@@ -1,76 +1,68 @@
-import { useEffect, useState } from "react";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
+import { Text, TextInput, TouchableOpacity, View } from "react-native";
 import { API_URL } from "../config";
-
-
-
-const API = "http://localhost:5000/api";
-
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);
   const [content, setContent] = useState("");
 
   const loadFeed = async () => {
-    
     const token = await AsyncStorage.getItem("token");
     console.log(token);
     const res = await fetch(`${API_URL}/feed`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
-
     const data = await res.json();
     setPosts(data.posts);
   };
 
-  
-//neww
+  //neww
 
   const createPost = async () => {
-  try {
-    const token = await AsyncStorage.getItem("token");
+    try {
+      const token = await AsyncStorage.getItem("token");
 
-    if (!token) {
-      alert("Not logged in");
-      return;
+      if (!token) {
+        alert("Not logged in");
+        return;
+      }
+
+      if (!content || content.trim() === "") {
+        alert("Post content is empty");
+        return;
+      }
+
+      const res = await fetch(`${API_URL}/feed/post`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          content: content.trim(),
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error("Create post failed:", data);
+        alert(data.message || "Failed to create post");
+        return;
+      }
+
+      console.log("Post created:", data);
+
+      setContent("");
+      await loadFeed();
+    } catch (err) {
+      console.error("Create post error:", err);
+      alert("Backend not reachable");
     }
-
-    if (!content || content.trim() === "") {
-      alert("Post content is empty");
-      return;
-    }
-
-    const res = await fetch(`${API_URL}/feed/post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        content: content.trim(),
-      }),
-    });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      console.error("Create post failed:", data);
-      alert(data.message || "Failed to create post");
-      return;
-    }
-
-    console.log("Post created:", data);
-
-    setContent("");
-    await loadFeed();
-  } catch (err) {
-    console.error("Create post error:", err);
-    alert("Backend not reachable");
-  }
-};
-//neww
+  };
+  //neww
 
   useEffect(() => {
     loadFeed();

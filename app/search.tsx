@@ -1,8 +1,14 @@
-import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, FlatList } from "react-native";
 import { router } from "expo-router";
+import { useState } from "react";
+import {
+  FlatList,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-const API_URL = "http://localhost:5000/api";
+const API_URL = "https://uhv-connectbackend1.onrender.com/";
 
 interface User {
   _id: string;
@@ -38,10 +44,12 @@ export default function SearchUsers() {
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => (
           <TouchableOpacity
-            onPress={() => router.push({
-             pathname: "/volunteer/[id]",
-              params: { id: item._id },
-            })}
+            onPress={() =>
+              router.push({
+                pathname: "/volunteer/[id]",
+                params: { id: item._id },
+              })
+            }
           >
             <Text>{item.fullName}</Text>
             <Text style={{ fontSize: 12 }}>{item.email}</Text>

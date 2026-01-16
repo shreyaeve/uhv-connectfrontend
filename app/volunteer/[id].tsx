@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { View, Text, ActivityIndicator } from "react-native";
 import { useLocalSearchParams } from "expo-router";
+import { useEffect, useState } from "react";
+import { ActivityIndicator, Text, View } from "react-native";
 
-const API_URL = "http://127.0.0.1:5000/api";
+const API_URL = "https://uhv-connectbackend1.onrender.com/";
 
 interface User {
   _id: string;
@@ -55,15 +55,11 @@ export default function VolunteerProfile() {
 
   return (
     <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 24, fontWeight: "bold" }}>
-        {user.fullName}
-      </Text>
+      <Text style={{ fontSize: 24, fontWeight: "bold" }}>{user.fullName}</Text>
 
       <Text style={{ marginTop: 8 }}>{user.email}</Text>
 
-      <Text style={{ marginTop: 8 }}>
-        Role: {user.role}
-      </Text>
+      <Text style={{ marginTop: 8 }}>Role: {user.role}</Text>
 
       <Text style={{ marginTop: 8 }}>
         Status: {user.approved ? "Approved ✅" : "Pending ⏳"}
