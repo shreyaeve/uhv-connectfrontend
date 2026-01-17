@@ -2,7 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
-import { API_URL } from "../config";
+import { API_URL } from "../config.ts";
 
 interface User {
   _id: string;
