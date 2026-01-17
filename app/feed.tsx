@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
-import { Text, TextInput, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { API_URL } from "../config";
 
 export default function Feed() {
@@ -17,8 +17,6 @@ export default function Feed() {
     const data = await res.json();
     setPosts(data.posts);
   };
-
-  //neww
 
   const createPost = async () => {
     try {
@@ -62,32 +60,109 @@ export default function Feed() {
       alert("Backend not reachable");
     }
   };
-  //neww
 
   useEffect(() => {
     loadFeed();
   }, []);
 
   return (
-    <View style={{ padding: 20 }}>
-      <Text style={{ fontSize: 22 }}>Feed</Text>
+    <ScrollView style={{ flex: 1, backgroundColor: "#f8fafc" }}>
+      {/* Header */}
+      <View style={{ backgroundColor: "#1e40af", padding: 24, paddingBottom: 32 }}>
+        <Text style={{ fontSize: 28, fontWeight: "700", color: "white" }}>
+          Community Feed
+        </Text>
+        <Text style={{ fontSize: 14, color: "#e0e7ff", marginTop: 4 }}>
+          Share and connect with volunteers
+        </Text>
+      </View>
 
-      <TextInput
-        placeholder="Share something…"
-        value={content}
-        onChangeText={setContent}
-      />
+      {/* Post Creation */}
+      <View style={{ padding: 20 }}>
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 12,
+            padding: 16,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3,
+            marginBottom: 20,
+          }}
+        >
+          <TextInput
+            placeholder="Share something with the community…"
+            value={content}
+            onChangeText={setContent}
+            multiline
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 12,
+              fontSize: 14,
+              minHeight: 80,
+            }}
+          />
 
-      <TouchableOpacity onPress={createPost}>
-        <Text>Post</Text>
-      </TouchableOpacity>
-
-      {posts.map((p: any) => (
-        <View key={p._id} style={{ marginTop: 10 }}>
-          <Text style={{ fontWeight: "bold" }}>{p.author.fullName}</Text>
-          <Text>{p.content}</Text>
+          <TouchableOpacity
+            onPress={createPost}
+            style={{
+              backgroundColor: "#1e40af",
+              padding: 12,
+              borderRadius: 8,
+            }}
+          >
+            <Text style={{ color: "white", textAlign: "center", fontSize: 14, fontWeight: "600" }}>
+              📤 Post
+            </Text>
+          </TouchableOpacity>
         </View>
-      ))}
-    </View>
+
+        {/* Posts List */}
+        {posts.length > 0 ? (
+          posts.map((p: any) => (
+            <View
+              key={p._id}
+              style={{
+                backgroundColor: "white",
+                borderRadius: 12,
+                padding: 16,
+                marginBottom: 12,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.1,
+                shadowRadius: 4,
+                elevation: 2,
+              }}
+            >
+              <Text style={{ fontSize: 14, fontWeight: "700", color: "#1e293b" }}>
+                {p.author.fullName}
+              </Text>
+              <Text style={{ fontSize: 12, color: "#94a3b8", marginBottom: 12 }}>
+                @{p.author.email}
+              </Text>
+              <Text style={{ fontSize: 14, color: "#334155", lineHeight: 20 }}>
+                {p.content}
+              </Text>
+            </View>
+          ))
+        ) : (
+          <View style={{ alignItems: "center", paddingVertical: 40 }}>
+            <Text style={{ fontSize: 16, color: "#94a3b8", marginBottom: 8 }}>
+              No posts yet
+            </Text>
+            <Text style={{ fontSize: 12, color: "#cbd5e1" }}>
+              Be the first to share something!
+            </Text>
+          </View>
+        )}
+      </View>
+
+      <View style={{ height: 20 }} />
+    </ScrollView>
   );
 }

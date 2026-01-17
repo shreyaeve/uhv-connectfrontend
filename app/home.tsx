@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Link, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { API_URL } from "../config";
 
 export default function Home() {
@@ -36,63 +36,210 @@ export default function Home() {
     router.replace("/login");
   };
 
-  if (!user) return <Text>Loading...</Text>;
+  if (!user)
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <Text style={{ fontSize: 18, color: "#666" }}>Loading...</Text>
+      </View>
+    );
 
   return (
-    <View style={{ padding: 20 }}>
-      <Link href="/feed">
-        <Text style={{ color: "blue", marginBottom: 10 }}>Go to Feed</Text>
-      </Link>
-
-      <Text style={{ fontSize: 22, fontWeight: "bold" }}>
-        Welcome {user.fullName}
-      </Text>
-      <Text>{user.email}</Text>
-
-      {/* Logout Button */}
-      <TouchableOpacity
-        onPress={logout}
+    <ScrollView
+      style={{
+        flex: 1,
+        backgroundColor: "#f8fafc",
+      }}
+    >
+      {/* Header */}
+      <View
         style={{
-          marginTop: 30,
-          backgroundColor: "#ef4444",
-          padding: 12,
-          borderRadius: 6,
+          backgroundColor: "#1e40af",
+          padding: 24,
+          paddingTop: 32,
+          paddingBottom: 32,
         }}
       >
-        <Text style={{ color: "white", textAlign: "center", fontSize: 16 }}>
-          Logout
+        <Text
+          style={{
+            fontSize: 28,
+            fontWeight: "700",
+            color: "white",
+            marginBottom: 8,
+          }}
+        >
+          Welcome back, {user.fullName}!
         </Text>
-      </TouchableOpacity>
+        <Text style={{ fontSize: 14, color: "#e0e7ff", opacity: 0.9 }}>
+          {user.email}
+        </Text>
+      </View>
 
-      <Link href="/edit-profile">
-  <Text>Edit Profile</Text>
-</Link>
+      {/* Main Content */}
+      <View style={{ padding: 20 }}>
+        {/* Profile Card */}
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 12,
+            padding: 20,
+            marginBottom: 20,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "600",
+              color: "#1e293b",
+              marginBottom: 16,
+            }}
+          >
+            Your Profile
+          </Text>
 
+          <TouchableOpacity
+            onPress={() =>
+              router.push({
+                pathname: "/volunteer/[id]",
+                params: { id: user._id },
+              })
+            }
+            style={{
+              backgroundColor: "#dbeafe",
+              padding: 14,
+              borderRadius: 8,
+              marginBottom: 12,
+              borderLeftWidth: 4,
+              borderLeftColor: "#0284c7",
+            }}
+          >
+            <Text
+              style={{
+                color: "#0369a1",
+                textAlign: "center",
+                fontSize: 14,
+                fontWeight: "600",
+              }}
+            >
+              👁️ View My Public Profile
+            </Text>
+          </TouchableOpacity>
 
+          <Link href="/edit-profile" asChild>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#f0fdf4",
+                padding: 14,
+                borderRadius: 8,
+                borderLeftWidth: 4,
+                borderLeftColor: "#16a34a",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#15803d",
+                  textAlign: "center",
+                  fontSize: 14,
+                  fontWeight: "600",
+                }}
+              >
+                ✏️ Edit Profile
+              </Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
 
-<TouchableOpacity
-  onPress={() =>
-    router.push({
-      pathname: "/volunteer/[id]",
-      params: { id: user._id },
-    })
-  }
-  style={{
-    marginTop: 20,
-    padding: 12,
-    backgroundColor: "#2563eb",
-    borderRadius: 6,
-  }}
->
-  <Text style={{ color: "white", textAlign: "center" }}>
-    View My Public Profile
-  </Text>
-</TouchableOpacity>
+        {/* Navigation Card */}
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 12,
+            padding: 20,
+            marginBottom: 20,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3,
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 16,
+              fontWeight: "600",
+              color: "#1e293b",
+              marginBottom: 16,
+            }}
+          >
+            Explore
+          </Text>
 
+          <Link href="/feed" asChild>
+            <TouchableOpacity
+              style={{
+                backgroundColor: "#fef3c7",
+                padding: 14,
+                borderRadius: 8,
+                borderLeftWidth: 4,
+                borderLeftColor: "#f59e0b",
+              }}
+            >
+              <Text
+                style={{
+                  color: "#92400e",
+                  textAlign: "center",
+                  fontSize: 14,
+                  fontWeight: "600",
+                }}
+              >
+                📰 View Feed
+              </Text>
+            </TouchableOpacity>
+          </Link>
+        </View>
 
+        {/* Logout Section */}
+        <View
+          style={{
+            backgroundColor: "white",
+            borderRadius: 12,
+            padding: 20,
+            shadowColor: "#000",
+            shadowOffset: { width: 0, height: 2 },
+            shadowOpacity: 0.1,
+            shadowRadius: 4,
+            elevation: 3,
+          }}
+        >
+          <TouchableOpacity
+            onPress={logout}
+            style={{
+              backgroundColor: "#fee2e2",
+              padding: 14,
+              borderRadius: 8,
+              borderLeftWidth: 4,
+              borderLeftColor: "#ef4444",
+            }}
+          >
+            <Text
+              style={{
+                color: "#b91c1c",
+                textAlign: "center",
+                fontSize: 14,
+                fontWeight: "600",
+              }}
+            >
+              🚪 Logout
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
 
-
-    </View>
-    
+      <View style={{ height: 20 }} />
+    </ScrollView>
   );
 }
