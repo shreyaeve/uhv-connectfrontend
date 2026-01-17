@@ -8,6 +8,14 @@ import { API_URL } from "../config";
 export default function EditProfile() {
   const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
+  const [phone, setPhone] = useState("");
+  const [role, setRole] = useState("volunteer");
+  const [location, setLocation] = useState("");
+  const [bio, setBio] = useState("");
+  const [experienceLevel, setExperienceLevel] = useState("Entry");
+  const [skills, setSkills] = useState("");
+  const [interests, setInterests] = useState("");
+  const [availability, setAvailability] = useState("");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -19,7 +27,16 @@ export default function EditProfile() {
       });
 
       const data = await res.json();
-      setFullName(data.profile.fullName);
+      const profile = data.profile;
+      setFullName(profile.fullName);
+      setPhone(profile.phone || "");
+      setRole(profile.role || "volunteer");
+      setLocation(profile.location || "");
+      setBio(profile.bio || "");
+      setExperienceLevel(profile.experienceLevel || "Entry");
+      setSkills(profile.skills?.join(", ") || "");
+      setInterests(profile.interests?.join(", ") || "");
+      setAvailability(profile.availability || "");
     };
 
     loadProfile();
@@ -39,6 +56,14 @@ export default function EditProfile() {
         body: JSON.stringify({
           fullName,
           ...(password ? { password } : {}),
+          phone,
+          role,
+          location,
+          bio,
+          experienceLevel,
+          skills: skills.split(",").map((s) => s.trim()).filter((s) => s),
+          interests: interests.split(",").map((i) => i.trim()).filter((i) => i),
+          availability,
         }),
       });
 
@@ -96,6 +121,59 @@ export default function EditProfile() {
           />
 
           <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Contact Number
+          </Text>
+          <TextInput
+            placeholder="+1 (555) 000-0000"
+            value={phone}
+            onChangeText={setPhone}
+            keyboardType="phone-pad"
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 24,
+              fontSize: 14,
+            }}
+          />
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Role
+          </Text>
+          <View style={{ flexDirection: "row", marginBottom: 24, gap: 10 }}>
+            {[
+              { label: "Volunteer", value: "volunteer" },
+              { label: "Leader", value: "leader" },
+              { label: "Core Team", value: "core-team" },
+            ].map((item) => (
+              <TouchableOpacity
+                key={item.value}
+                onPress={() => setRole(item.value)}
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  borderRadius: 8,
+                  borderWidth: 2,
+                  borderColor: role === item.value ? "#1e40af" : "#e2e8f0",
+                  backgroundColor: role === item.value ? "#dbeafe" : "white",
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: role === item.value ? "700" : "500",
+                    color: role === item.value ? "#1e40af" : "#64748b",
+                    fontSize: 12,
+                  }}
+                >
+                  {item.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
             New Password (optional)
           </Text>
           <TextInput
@@ -103,6 +181,140 @@ export default function EditProfile() {
             placeholder="Leave blank to keep current password"
             value={password}
             onChangeText={setPassword}
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 24,
+              fontSize: 14,
+            }}
+          />
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Phone Number (optional)
+          </Text>
+          <TextInput
+            placeholder="+1 (555) 000-0000"
+            value={phone}
+            onChangeText={setPhone}
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 24,
+              fontSize: 14,
+            }}
+          />
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Location (optional)
+          </Text>
+          <TextInput
+            placeholder="City, State"
+            value={location}
+            onChangeText={setLocation}
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 24,
+              fontSize: 14,
+            }}
+          />
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Bio (optional)
+          </Text>
+          <TextInput
+            placeholder="Tell us about yourself..."
+            value={bio}
+            onChangeText={setBio}
+            multiline
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 24,
+              fontSize: 14,
+              minHeight: 80,
+            }}
+          />
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Experience Level
+          </Text>
+          <View style={{ flexDirection: "row", marginBottom: 24, gap: 10 }}>
+            {["Entry", "Intermediate", "Advanced"].map((level) => (
+              <TouchableOpacity
+                key={level}
+                onPress={() => setExperienceLevel(level)}
+                style={{
+                  flex: 1,
+                  padding: 10,
+                  borderRadius: 8,
+                  borderWidth: 2,
+                  borderColor: experienceLevel === level ? "#1e40af" : "#e2e8f0",
+                  backgroundColor: experienceLevel === level ? "#dbeafe" : "white",
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontWeight: experienceLevel === level ? "700" : "500",
+                    color: experienceLevel === level ? "#1e40af" : "#64748b",
+                  }}
+                >
+                  {level}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Skills (comma-separated, optional)
+          </Text>
+          <TextInput
+            placeholder="React, Node.js, AWS, etc."
+            value={skills}
+            onChangeText={setSkills}
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 24,
+              fontSize: 14,
+            }}
+          />
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Interests (comma-separated, optional)
+          </Text>
+          <TextInput
+            placeholder="Teaching, Mentoring, Development, etc."
+            value={interests}
+            onChangeText={setInterests}
+            style={{
+              borderWidth: 1,
+              borderColor: "#e2e8f0",
+              padding: 12,
+              borderRadius: 8,
+              marginBottom: 24,
+              fontSize: 14,
+            }}
+          />
+
+          <Text style={{ fontSize: 14, fontWeight: "600", color: "#1e293b", marginBottom: 12 }}>
+            Availability (optional)
+          </Text>
+          <TextInput
+            placeholder="e.g., Weekends, 2 hours per week"
+            value={availability}
+            onChangeText={setAvailability}
             style={{
               borderWidth: 1,
               borderColor: "#e2e8f0",
