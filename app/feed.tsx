@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { API_URL } from "../config.ts";
+import { API_URL } from "../config";
 
 export default function Feed() {
   const [posts, setPosts] = useState([]);

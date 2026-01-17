@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { API_URL } from "../config.ts";
+import { API_URL } from "../config";
 
 
 const API = "http://localhost:5000/api";

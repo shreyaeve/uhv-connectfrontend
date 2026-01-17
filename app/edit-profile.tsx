@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-import { API_URL } from "../config.ts";
+import { API_URL } from "../config";
 
 export default function EditProfile() {
   const [fullName, setFullName] = useState("");

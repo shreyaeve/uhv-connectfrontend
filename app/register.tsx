@@ -1,7 +1,7 @@
 import { useRouter } from "expo-router";
 import { useState } from "react";
 import { Text, TextInput, TouchableOpacity, View } from "react-native";
-import { API_URL } from "../config.ts";
+import { API_URL } from "../config";
 
 const API = "https://uhv-connectbackend1.onrender.com/";
 

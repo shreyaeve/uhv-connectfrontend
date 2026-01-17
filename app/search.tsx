@@ -8,7 +8,7 @@ import {
     View,
 } from "react-native";
 
-import { API_URL } from "../config.ts";
+import { API_URL } from "../config";
 
 interface User {
   _id: string;
