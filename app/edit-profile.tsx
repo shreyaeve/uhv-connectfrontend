@@ -3,7 +3,7 @@ import { router } from "expo-router";
 import { useEffect, useState } from "react";
 import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
 
-const API_URL = "https://uhv-connectbackend1.onrender.com/";
+import { API_URL } from "../config";
 
 export default function EditProfile() {
   const [fullName, setFullName] = useState("");
@@ -30,7 +30,7 @@ export default function EditProfile() {
     try {
       const token = await AsyncStorage.getItem("token");
 
-      const res = await fetch(`${API_URL}/volunteers/profile`, {
+      const res = await fetch(`${API_URL}/api/volunteers/profile`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

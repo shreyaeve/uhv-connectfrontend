@@ -1,14 +1,14 @@
 import { router } from "expo-router";
 import { useState } from "react";
 import {
-  FlatList,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
+    FlatList,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
 } from "react-native";
 
-const API_URL = "https://uhv-connectbackend1.onrender.com/";
+import { API_URL } from "../config";
 
 interface User {
   _id: string;
@@ -21,7 +21,7 @@ export default function SearchUsers() {
   const [users, setUsers] = useState<User[]>([]);
 
   const search = async () => {
-    const res = await fetch(`${API_URL}/volunteers/search?q=${q}`);
+    const res = await fetch(`${API_URL}/api/volunteers/search?q=${q}`);
     const data = await res.json();
     setUsers(data.users);
   };

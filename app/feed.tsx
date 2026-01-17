@@ -10,7 +10,7 @@ export default function Feed() {
   const loadFeed = async () => {
     const token = await AsyncStorage.getItem("token");
     console.log(token);
-    const res = await fetch(`${API_URL}/feed`, {
+    const res = await fetch(`${API_URL}/api/feed`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
@@ -34,7 +34,7 @@ export default function Feed() {
         return;
       }
 
-      const res = await fetch(`${API_URL}/feed/post`, {
+      const res = await fetch(`${API_URL}/api/feed/post`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

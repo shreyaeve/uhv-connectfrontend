@@ -2,7 +2,7 @@ import { useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import { ActivityIndicator, Text, View } from "react-native";
 
-const API_URL = "https://uhv-connectbackend1.onrender.com/";
+import { API_URL } from "../config";
 
 interface User {
   _id: string;
@@ -23,7 +23,7 @@ export default function VolunteerProfile() {
 
     const loadUser = async () => {
       try {
-        const res = await fetch(`${API_URL}/volunteers/${id}`);
+        const res = await fetch(`${API_URL}/api/volunteers/${id}`);
         const data = await res.json();
 
         if (!res.ok) {

@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { Link, useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { Text, View, TouchableOpacity } from "react-native";
-import { Link, useRouter, router } from "expo-router";
+import { Text, TouchableOpacity, View } from "react-native";
+import { API_URL } from "../config";
 
 export default function Home() {
   const [user, setUser] = useState<any>(null);
@@ -16,7 +17,7 @@ export default function Home() {
         return;
       }
 
-      const res = await fetch("http://localhost:5000/api/volunteers/profile", {
+      const res = await fetch(`${API_URL}/api/volunteers/profile`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
