@@ -3,8 +3,6 @@ import { useState } from "react";
 import { ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { API_URL } from "../config";
 
-const API = "https://uhv-connectbackend1.onrender.com/";
-
 export default function Register() {
   const router = useRouter();
   const [fullName, setFullName] = useState("");
@@ -40,7 +38,7 @@ export default function Register() {
 
     const res = await fetch(`${API_URL}/api/auth/register`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "appl.replace(/\/$/, '')ication/json" },
       body: JSON.stringify({
         fullName,
         email,
